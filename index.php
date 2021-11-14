@@ -22,7 +22,7 @@ $cities = [
 //население всех десяти городов.
 
 /**
- * @param $arr 'array sity / state/ population
+ * @param $arr 'array city / state/ population
  * @param $title 'table title
  * @param $headCol1 'header column1
  * @param $headCol2 'header column1
@@ -35,21 +35,19 @@ function drawArrayAsTable4Col ($arr, $title, $headCol1, $headCol2, $headCol3) {
     $total = 0;
     $i = 0;
 
-    foreach ($arr as $key => $value) {
+    foreach ($arr as $value) {
         $i++;
         $table .= "<tr>";
         $table .= "<td> $i </td><td> {$value['city']}</td><td> {$value['state']} </td><td> {$value['population']} </td>";
         $table .= "</tr>";
         $total += $value['population'];
-    };
+    }
 
     $table .= "<td colspan=3 style=text-align:right> ИТОГО: </td><td> $total </td>";
     $table .= '</table>';
 
     echo $table;
 }
-
-;
 
 
 $title = 'Данные Бюро переписи населения США в 2010 году';
@@ -91,8 +89,8 @@ $cities[7]['population'] = 1000000;
 $cities[9]['population'] = 1000000;
 
 usort($cities, function ($a, $b) {
-    if ($a ['population'] == $b ['population']) {
-        if ($a ['city'] == $b ['city']) {
+    if ($a ['population'] === $b ['population']) {
+        if ($a ['city'] === $b ['city']) {
             return 0;
         } else {
             return ($a ['city'] < $b ['city']) ? -1 : 1;
@@ -137,24 +135,26 @@ foreach ($cities as $key => $value) {
     $table .= "<tr>";
     $table .= "<td> $i </td><td> {$value['city']}</td><td> {$value['state']} </td><td> {$value['population']} </td>";
     $table .= "</tr>";
-};
+}
 
 $stateName = '';
 
 for ($i = 0; $i < count($cities); ++$i) {
     $stateName = $cities[$i]['state'];
     $next = false;
-    for ($j = $i+ 1; $j < count($cities); ++$j) {
-        if ($cities[$j]['state'] == $stateName) {
+    for ($j = $i + 1; $j < count($cities); ++$j) {
+        if ($cities[$j]['state'] === $stateName) {
             $next = true;
-            continue;
-        };
-    };
-    if ($next) { continue; }
+            break;
+        }
+    }
+    if ($next) {
+        continue;
+    }
 
     $populationState = 0;
     foreach ($cities as $key => $value) {
-        if ($value['state'] == $stateName) {
+        if ($value['state'] === $stateName) {
             $populationState += $value['population'];
         }
     }
