@@ -47,7 +47,9 @@ function drawArrayAsTable4Col ($arr, $title, $headCol1, $headCol2, $headCol3) {
     $table .= '</table>';
 
     echo $table;
-};
+}
+
+;
 
 
 $title = 'Данные Бюро переписи населения США в 2010 году';
@@ -84,9 +86,9 @@ echo "<br><br><br><br>";
 $title = 'Данные переписи населения США  отсортированые по численности, а затем по городу';
 
 //fake data for check algorithm
-$cities[5]['population']=1000000;
-$cities[7]['population']=1000000;
-$cities[9]['population']=1000000;
+$cities[5]['population'] = 1000000;
+$cities[7]['population'] = 1000000;
+$cities[9]['population'] = 1000000;
 
 usort($cities, function ($a, $b) {
     if ($a ['population'] == $b ['population']) {
@@ -102,7 +104,6 @@ usort($cities, function ($a, $b) {
 
 drawArrayAsTable4Col($cities, $title, $headCol1, $headCol2, $headCol3);
 echo "<br><br><br><br>";
-
 
 
 //3. Видоизмените выполнение задания в первом упражнении таким образом, чтобы таблица содержала
@@ -122,6 +123,49 @@ $cities = [
     ['city' => 'Сан-Хосе', 'state' => 'шт. Калифорния', 'population' => 945942],
 ];
 
+$title = 'Данные Бюро переписи населения США в 2010 году с общим населением каждого штата';
+//Вывод с суммой по каждому штату
+
+$table = "<table border=2>";
+$table .= "<caption> $title </caption>";
+$table .= "<th>  № п/п </th><th> $headCol1 </th><th> $headCol2 </th><th> $headCol3</th>";
+$totalForState = 0;
+$i = 0;
+
+foreach ($cities as $key => $value) {
+    $i++;
+    $table .= "<tr>";
+    $table .= "<td> $i </td><td> {$value['city']}</td><td> {$value['state']} </td><td> {$value['population']} </td>";
+    $table .= "</tr>";
+};
+
+$stateName = '';
+
+for ($i = 0; $i < count($cities); ++$i) {
+    $stateName = $cities[$i]['state'];
+    $next = false;
+    for ($j = $i+ 1; $j < count($cities); ++$j) {
+        if ($cities[$j]['state'] == $stateName) {
+            $next = true;
+            continue;
+        };
+    };
+    if ($next) { continue; }
+
+    $populationState = 0;
+    foreach ($cities as $key => $value) {
+        if ($value['state'] == $stateName) {
+            $populationState += $value['population'];
+        }
+    }
+    $table .= "<tr>";
+    $table .= "<td colspan=3 style=text-align:right> $stateName</td><td> $populationState</td>";
+    $table .= "</tr>";
+}
+
+$table .= '</table>';
+
+echo $table;
 
 
 
