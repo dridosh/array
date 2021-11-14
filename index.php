@@ -1,39 +1,44 @@
 <?php
+//Упражнения
+//
+//1.1 Определите один массив (или ряд массивов), хранящий местоположение и население перечисленных
+//выше городов.
 
-/**
- * init array
- */
-$city = [
-    'Нью-Йорк'     => ['state' => null, 'population' => 8175133],
-    'Лос-Анджелес' => ['state' => 'шт. Калифорния', 'population' => 3792621],
-    'Чикаго'       => ['state' => 'шт. Иллинойс', 'population' => 2695598],
-    'Хьюстон'      => ['state' => 'шт. Техас', 'population' => 2100263],
-    'Филадельфия'  => ['state' => 'шт. Пенсильвания', 'population' => 1526006],
-    'Феникс'       => ['state' => 'шт. Аризона', 'population' => 1445632],
-    'Сан-Антонио'  => ['state' => 'шт. Техас', 'population' => 1327407],
-    'Сан-Диего'    => ['state' => 'шт. Калифорния', 'population' => 1307402],
-    'Даллас'       => ['state' => 'шт. Техас', 'population' => 1197816],
-    'Сан-Хосе'     => ['state' => 'шт. Калифорния', 'population' => 945942],
+$cities = [
+    ['city' => 'Нью-Йорк', 'state' => null, 'population' => 8175133],
+    ['city' => 'Лос-Анджелес', 'state' => 'шт. Калифорния', 'population' => 3792621],
+    ['city' => 'Чикаго', 'state' => 'шт. Иллинойс', 'population' => 2695598],
+    ['city' => 'Хьюстон', 'state' => 'шт. Техас', 'population' => 2100263],
+    ['city' => 'Филадельфия', 'state' => 'шт. Пенсильвания', 'population' => 1526006],
+    ['city' => 'Феникс', 'state' => 'шт. Аризона', 'population' => 1445632],
+    ['city' => 'Сан-Антонио', 'state' => 'шт. Техас', 'population' => 1327407],
+    ['city' => 'Сан-Диего', 'state' => 'шт. Калифорния', 'population' => 1307402],
+    ['city' => 'Даллас', 'state' => 'шт. Техас', 'population' => 1197816],
+    ['city' => 'Сан-Хосе', 'state' => 'шт. Калифорния', 'population' => 945942],
 ];
 
 
+//1.2 Выведите на экран таблицу со сведениями о местоположении и населении, а также общее
+//население всех десяти городов.
+
 /**
- * @param $arr array sity / state/ population
- * @param $title
- * @param $headCol1
- * @param $headCol2
- * @param $headCol3
+ * @param $arr 'array sity / state/ population
+ * @param $title 'table title
+ * @param $headCol1 'header column1
+ * @param $headCol2 'header column1
+ * @param $headCol3 'header column1
  */
-function drawArrayAsTable4Col($arr, $title, $headCol1, $headCol2, $headCol3){
+function drawArrayAsTable4Col ($arr, $title, $headCol1, $headCol2, $headCol3) {
     $table = "<table border=2>";
     $table .= "<caption> $title </caption>";
     $table .= "<th>  № п/п </th><th> $headCol1 </th><th> $headCol2 </th><th> $headCol3</th>";
     $total = 0;
     $i = 0;
+
     foreach ($arr as $key => $value) {
         $i++;
         $table .= "<tr>";
-        $table .= "<td> $i </td><td> $key </td><td> {$value['state']} </td><td> {$value['population']} </td>";
+        $table .= "<td> $i </td><td> {$value['city']}</td><td> {$value['state']} </td><td> {$value['population']} </td>";
         $table .= "</tr>";
         $total += $value['population'];
     };
@@ -42,21 +47,92 @@ function drawArrayAsTable4Col($arr, $title, $headCol1, $headCol2, $headCol3){
     $table .= '</table>';
 
     echo $table;
-
 };
 
 
-$title='Данные Бюро переписи населения США в 2010 году';
-$headCol1='Город';
-$headCol2='Штат';
-$headCol3='Численность населения';
-
-drawArrayAsTable4Col($city, $title, $headCol1, $headCol2, $headCol3);
-
-
+$title = 'Данные Бюро переписи населения США в 2010 году';
+$headCol1 = 'Город';
+$headCol2 = 'Штат';
+$headCol3 = 'Численность населения';
+drawArrayAsTable4Col($cities, $title, $headCol1, $headCol2, $headCol3);
+echo "<br><br><br><br>";
 
 
+//2. Видоизмените выполнение задания в предыдущем упражнении таким образом, чтобы строки в
+//результирующей таблице были упорядочены сначала по населению, а затем по названиям городов.
 
+$title = 'Данные Бюро переписи населения США в 2010 году отсортированые по численности';
+
+usort($cities, function ($a, $b) {
+    return $a ['population'] <=> $b ['population'];
+});
+
+drawArrayAsTable4Col($cities, $title, $headCol1, $headCol2, $headCol3);
+echo "<br><br><br><br>";
+
+
+$title = 'Данные Бюро переписи населения США в 2010 году отсортированые по городу';
+
+usort($cities, function ($a, $b) {
+    return $a['city'] <=> $b['city'];
+});
+
+drawArrayAsTable4Col($cities, $title, $headCol1, $headCol2, $headCol3);
+echo "<br><br><br><br>";
+
+
+$title = 'Данные переписи населения США  отсортированые по численности, а затем по городу';
+
+//fake data for check algorithm
+$cities[5]['population']=1000000;
+$cities[7]['population']=1000000;
+$cities[9]['population']=1000000;
+
+usort($cities, function ($a, $b) {
+    if ($a ['population'] == $b ['population']) {
+        if ($a ['city'] == $b ['city']) {
+            return 0;
+        } else {
+            return ($a ['city'] < $b ['city']) ? -1 : 1;
+        }
+    }
+    return ($a ['population'] < $b ['population']) ? -1 : 1;
+});
+
+
+drawArrayAsTable4Col($cities, $title, $headCol1, $headCol2, $headCol3);
+echo "<br><br><br><br>";
+
+
+
+//3. Видоизмените выполнение задания в первом упражнении таким образом, чтобы таблица содержала
+//также строки с общим населением каждого штата, упомянутого в перечне самых крупных городов США.
+
+// restore array
+$cities = [
+    ['city' => 'Нью-Йорк', 'state' => null, 'population' => 8175133],
+    ['city' => 'Лос-Анджелес', 'state' => 'шт. Калифорния', 'population' => 3792621],
+    ['city' => 'Чикаго', 'state' => 'шт. Иллинойс', 'population' => 2695598],
+    ['city' => 'Хьюстон', 'state' => 'шт. Техас', 'population' => 2100263],
+    ['city' => 'Филадельфия', 'state' => 'шт. Пенсильвания', 'population' => 1526006],
+    ['city' => 'Феникс', 'state' => 'шт. Аризона', 'population' => 1445632],
+    ['city' => 'Сан-Антонио', 'state' => 'шт. Техас', 'population' => 1327407],
+    ['city' => 'Сан-Диего', 'state' => 'шт. Калифорния', 'population' => 1307402],
+    ['city' => 'Даллас', 'state' => 'шт. Техас', 'population' => 1197816],
+    ['city' => 'Сан-Хосе', 'state' => 'шт. Калифорния', 'population' => 945942],
+];
+
+
+
+
+
+
+
+
+// usort($cities, 'city_cmp');
+
+
+//drawArrayAsTable4Col($city, $title, $headCol1, $headCol2, $headCol3);
 
 
 /**
@@ -70,8 +146,8 @@ drawArrayAsTable4Col($city, $title, $headCol1, $headCol2, $headCol3);
 //};
 //
 //echo '<hr>';
-//
-//
+
+
 ///**
 // * output - method 2
 // */
@@ -88,9 +164,18 @@ drawArrayAsTable4Col($city, $title, $headCol1, $headCol2, $headCol3);
 // * output - method 3
 // */
 
-
-
-
+///**
+// * output - method 3
+// */
+//
+//echo "<pre>";
+//foreach ($cities as $cityName => $cityProperty) {
+//    echo "$cityName: &nbsp(";
+//    foreach ($cityProperty as $key => $value) {
+//        echo "$key:&nbsp $value:&nbsp";
+//    }
+//    echo ")<br>";
+//}
 
 
 
