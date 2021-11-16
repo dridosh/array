@@ -121,6 +121,7 @@ $cities = [
     ['city' => 'Сан-Хосе', 'state' => 'шт. Калифорния', 'population' => 945942],
 ];
 
+
 $title = 'Данные Бюро переписи населения США в 2010 году с общим населением каждого штата';
 //Вывод с суммой по каждому штату
 
@@ -137,29 +138,15 @@ foreach ($cities as $key => $value) {
     $table .= "</tr>";
 }
 
-$stateName = '';
 
-for ($i = 0; $i < count($cities); ++$i) {
-    $stateName = $cities[$i]['state'];
-    $next = false;
-    for ($j = $i + 1; $j < count($cities); ++$j) {
-        if ($cities[$j]['state'] === $stateName) {
-            $next = true;
-            break;
-        }
-    }
-    if ($next) {
-        continue;
-    }
+$states = [];
+foreach ($cities as $city) {
+    $states[$city['state']] += $city['population'];
+}
 
-    $populationState = 0;
-    foreach ($cities as $key => $value) {
-        if ($value['state'] === $stateName) {
-            $populationState += $value['population'];
-        }
-    }
+foreach ($states as $key => $value) {
     $table .= "<tr>";
-    $table .= "<td colspan=3 style=text-align:right> $stateName</td><td> $populationState</td>";
+    $table .= "<td colspan=3 style=text-align:right> $key</td><td>$value</td>";
     $table .= "</tr>";
 }
 
@@ -170,56 +157,6 @@ echo $table;
 
 
 
-
-
-
-// usort($cities, 'city_cmp');
-
-
-//drawArrayAsTable4Col($city, $title, $headCol1, $headCol2, $headCol3);
-
-
-/**
- * output - method 1
- */
-//foreach ($city as $key => $value) {
-//    echo $key . '=>' . implode(', ', $value) . '<br>';
-//    echo $value['state'] . '<br>';
-//    echo $value['population'] . '<br>';
-//    echo '<br>';
-//};
-//
-//echo '<hr>';
-
-
-///**
-// * output - method 2
-// */
-//foreach ($city as $key => $value) {
-//
-//    echo $key . '<br>';
-//    echo array_values($value)[0] . '<br>';
-//    echo array_values($value)[1] . '<br>';
-//    echo '<br>';
-//};
-//echo '<hr>';
-//
-///**
-// * output - method 3
-// */
-
-///**
-// * output - method 3
-// */
-//
-//echo "<pre>";
-//foreach ($cities as $cityName => $cityProperty) {
-//    echo "$cityName: &nbsp(";
-//    foreach ($cityProperty as $key => $value) {
-//        echo "$key:&nbsp $value:&nbsp";
-//    }
-//    echo ")<br>";
-//}
 
 
 
